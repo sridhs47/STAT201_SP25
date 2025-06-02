@@ -1,0 +1,94 @@
+---
+title: "practicereal"
+output: html_document
+date: "2025-06-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+G = c(3007, 3067, 3244, 3375,3574, 3828, 4146, 4336, 4696, 5032,5234,5609,6094,6726,7226,7801,8592,9453,10565,11674,12575,13976,14434,15544,17121,18237,19071,20039,21417,22857,23889,24342,25419,26387,27695,28691,29968,31459,32854,34515,36330,37134,37998,39490,41725,44123,46302,48050,48570,47195,48651,50066,51784,53291,55124,56763,57867,59915,62805,65095,63028,69288)
+New <- G[-c(1, length(G))]
+periodyears <- floor(length(New)/5)
+fiveperiods <- matrix(nrow = periodyears, ncol = 5)
+for (i in 1:periodyears){
+  fiveperiods[i,] <- New[((i-1)*5 + 1):((i-1)*5 + 5)]
+}
+maximums <- apply(fiveperiods, 1, max)
+cap <- which (maximums == max(maximums))*5 + 1960
+range <- ((cap-4):cap)
+range
+decreasing <- function(row){
+  all(diff(row) < 0)
+}
+decreasingperiods <- which(apply(fiveperiods, 1, decreasing) == TRUE)
+fiveperiods[decreasingperiods,]
+```
+```{r}
+retry = "yes"
+while (tolower(retry) == "yes"){
+  stars <- as.integer(readline("how many stars in the milkyway"))
+  if (is.na(stars)){
+    print("please enter a number")
+    retry <- readline("try again?")
+  } else if (stars != 100){
+    print("incorrect.")
+    retry <- readline("Try again?")
+  } else {
+    print("correct")
+    break
+  }
+}
+``` 
+
+```{r}
+words_vec <- c('fat', 'civic', 'radar', 'mountain', 'noon','papa')
+checkpalindromes <- function(word){
+  letters <- strsplit(word, "")[[1]]
+  return (identical(letters, rev(letters)))
+}
+sum(sapply(words_vec, checkpalindromes))
+
+```
+
+```{r}
+increaseby10 <- 1960 + which((G[-1] - G[-length(G)])/G[-length(G)] > 0.1)
+increaseby10
+increases <- ((G[-1]- G[-length(G)])/G[-length(G)])
+which(increases == max(increases)) + 1960
+which(increases < 0) + 1960
+```
+
+```{r}
+character <- "She sells the sea shells on the sea shore during the summer."
+
+countwords <- function(phrase, word){
+  clean <- gsub("[[:punct:]]", "", phrase)
+  cut <- unlist(strsplit(clean, ""))
+  count <- sum(cut == word)
+return (paste("Number of letters:" , count))
+}
+
+```
+
